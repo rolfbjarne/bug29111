@@ -8,20 +8,42 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
+static BugViewController *_modal;
 
-@end
-
-@implementation ViewController
+@implementation BugViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+
+    if (self.is_modal) {
+        UIButton *blueButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [blueButton setTitle: @"Close" forState:UIControlStateNormal];
+        [blueButton setBackgroundColor: [UIColor whiteColor]];
+        blueButton.frame = CGRectMake (100, 100, 100, 50);
+        [blueButton addTarget:self action:@selector(dismissBlue) forControlEvents:UIControlEventTouchDown];
+        [self.view addSubview: blueButton];
+    } else {
+        UIButton *redButton = [UIButton buttonWithType: UIButtonTypeRoundedRect];
+        [redButton setTitle: @"Show FlipHorizontal FormSheet" forState: UIControlStateNormal];
+        [redButton setBackgroundColor: [UIColor redColor]];
+        redButton.frame = CGRectMake (100, 200, 300, 50);
+        [redButton addTarget:self action:@selector(dismissRed) forControlEvents:UIControlEventTouchDown];
+        [self.view addSubview: redButton];
+    }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void) dismissBlue
+{
+    [_modal dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void) dismissRed
+{
+    _modal = [[BugViewController alloc] init];
+    _modal.is_modal = YES;
+    _modal.modalPresentationStyle = UIModalPresentationFormSheet;
+    _modal.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController: _modal animated:YES completion:nil];
 }
 
 @end

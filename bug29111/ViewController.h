@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface BugViewController : UIViewController
+@property BOOL is_modal;
 
 @end
 
